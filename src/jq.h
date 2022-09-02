@@ -28,6 +28,9 @@ void jq_teardown(jq_state **);
 
 void jq_halt(jq_state *, jv, jv);
 int jq_halted(jq_state *);
+void jq_cancel(jq_state *jq);
+void jq_reset_cancel_state(jq_state *jq);
+int jq_canceled(jq_state *jq);
 jv jq_get_exit_code(jq_state *);
 jv jq_get_error_message(jq_state *);
 
