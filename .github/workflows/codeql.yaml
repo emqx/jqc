@@ -2,6 +2,9 @@ name: "CodeQL"
 
 on:
   pull_request:
+  push:
+    branches:
+      - jq-*
   workflow_dispatch:
     inputs:
       ref:
@@ -21,6 +24,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
       with:
+        submodules: recursive
         ref: ${{ github.event.inputs.ref }}
 
     - name: Initialize CodeQL
