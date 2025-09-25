@@ -406,12 +406,10 @@ int jv_array_contains(jv a, jv b) {
 jv jv_array_indexes(jv a, jv b) {
   jv res = jv_array();
   int idx = -1;
-  jv_array_foreach(a, ai, aelem) {
+  int alen = jv_array_length(jv_copy(a));
+  for (int ai = 0; ai < alen; ++ai) {
     jv_array_foreach(b, bi, belem) {
-      // quieten compiler warnings about aelem not being used... by
-      // using it
-      if ((bi == 0 && !jv_equal(jv_copy(aelem), jv_copy(belem))) ||
-          (bi > 0 && !jv_equal(jv_array_get(jv_copy(a), ai + bi), jv_copy(belem))))
+      if (!jv_equal(jv_array_get(jv_copy(a), ai + bi), belem))
         idx = -1;
       else if (bi == 0 && idx == -1)
         idx = ai;
@@ -424,7 +422,6 @@ jv jv_array_indexes(jv a, jv b) {
   jv_free(b);
   return res;
 }
-
 
 /*
  * Strings (internal helpers)
