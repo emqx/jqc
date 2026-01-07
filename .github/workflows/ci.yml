@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - jq-*
     # Disable automatic releases:
     # tags:
     #   - "jq-*"
