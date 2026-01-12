@@ -3,8 +3,10 @@ on:
   push:
     branches:
       - master
-    tags:
-      - "jq-*"
+      - jq-*
+    # Disable automatic releases:
+    # tags:
+    #   - "jq-*"
   pull_request:
 
 jobs:

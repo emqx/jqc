@@ -40,6 +40,7 @@ struct jq_state {
   int initial_execution;
   unsigned next_label;
 
+  volatile int canceled;
   int halted;
   jv exit_code;
   jv error_message;
@@ -314,6 +315,9 @@ static void jq_reset(jq_state *jq) {
   jq->error = jv_null();
 
   jq->halted = 0;
+  /* We do not reset jq->canceled here as this makes it more difficult to cache
+   * jq_state instances. Instead the function jq_reset_cancel_state should be
+   * used to reset the cancel state */
   jv_free(jq->exit_code);
   jq->exit_code = jv_invalid();
   jv_free(jq->error_message);
@@ -352,6 +356,11 @@ jv jq_next(jq_state *jq) {
   jq->initial_execution = 0;
   assert(jv_get_kind(jq->error) == JV_KIND_NULL);
   while (1) {
+    if (jq->canceled) {
+      if (jq->debug_trace_enabled)
+        printf("\t<canceled>\n");
+      return jv_invalid();
+    }
     if (jq->halted) {
       if (jq->debug_trace_enabled)
         printf("\t<halted>\n");
@@ -1059,6 +1068,7 @@ jq_state *jq_init(void) {
   jq->curr_frame = 0;
   jq->error = jv_null();
 
+  jq->canceled = 0;
   jq->halted = 0;
   jq->exit_code = jv_invalid();
   jq->error_message = jv_invalid();
@@ -1327,6 +1337,24 @@ int
 jq_halted(jq_state *jq)
 {
   return jq->halted;
+}
+
+void
+jq_cancel(jq_state *jq)
+{
+    jq->canceled = 1;
+}
+
+void
+jq_reset_cancel_state(jq_state *jq)
+{
+    jq->canceled = 0;
+}
+
+int
+jq_canceled(jq_state *jq)
+{
+    return jq->canceled;
 }
 
 jv jq_get_exit_code(jq_state *jq)
