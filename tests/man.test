@@ -685,11 +685,11 @@ walk(if type == "array" then sort else . end)
 
 $ENV.PAGER
 null
-"less"
+null
 
 env.PAGER
 null
-"less"
+null
 
 transpose
 [[1], [2,3]]

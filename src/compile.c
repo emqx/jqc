@@ -1097,26 +1097,14 @@ static int count_cfunctions(block b) {
   return n;
 }
 
-#ifndef WIN32
-extern char **environ;
-#endif
-
+// The caller stores the result twice, in *env and in the instruction, so this
+// returns two references to the same object.
 static jv
 make_env(jv env)
 {
   if (jv_is_valid(env))
     return jv_copy(env);
   jv r = jv_object();
-  if (environ == NULL)
-    return r;
-  for (size_t i = 0; environ[i] != NULL; i++) {
-    const char *eq;
-
-    if ((eq = strchr(environ[i], '=')) == NULL)
-      r = jv_object_delete(r, jv_string(environ[i]));
-    else
-      r = jv_object_set(r, jv_string_sized(environ[i], eq - environ[i]), jv_string(eq + 1));
-  }
   return jv_copy(r);
 }
 
