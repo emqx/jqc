@@ -48,7 +48,8 @@ jobs:
           --disable-maintainer-mode \
           --enable-static \
           --enable-all-static \
-          CC=${{ matrix.cc }}
+          CC=${{ matrix.cc }} \
+          CFLAGS="-O2 -std=gnu17"
         make -j"$(nproc)"
 
     - name: Run smoke test
