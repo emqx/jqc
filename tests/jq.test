@@ -2507,3 +2507,8 @@ strflocaltime("" | ., @uri)
 0
 ""
 ""
+
+# $ENV and env are empty objects, also when used more than once in a program
+def f: $ENV; [$ENV, $ENV, env, f]
+null
+[{},{},{},{}]

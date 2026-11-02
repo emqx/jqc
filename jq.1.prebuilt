@@ -1,5 +1,5 @@
 .
-.TH "JQ" "1" "May 2025" "" ""
+.TH "JQ" "1" "November 2026" "" ""
 .
 .SH "NAME"
 \fBjq\fR \- Command\-line JSON processor
@@ -2233,13 +2233,7 @@ This builtin binding shows the jq executable\'s build configuration\. Its value 
 Note that this can be overridden in the command\-line with \fB\-\-arg\fR and related options\.
 .
 .SS "$ENV, env"
-\fB$ENV\fR is an object representing the environment variables as set when the jq program started\.
-.
-.P
-\fBenv\fR outputs an object representing jq\'s current environment\.
-.
-.P
-At the moment there is no builtin for setting environment variables\.
+\fB$ENV\fR and \fBenv\fR both evaluate to an empty object\. jq programs do not have access to environment variables\.
 .
 .IP "" 4
 .
@@ -2247,11 +2241,11 @@ At the moment there is no builtin for setting environment variables\.
 
 jq \'$ENV\.PAGER\'
    null
-=> "less"
+=> null
 
 jq \'env\.PAGER\'
    null
-=> "less"
+=> null
 .
 .fi
 .
