@@ -1705,22 +1705,17 @@ sections:
       - title: "`$ENV`, `env`"
         body: |
 
-          `$ENV` is an object representing the environment variables as
-          set when the jq program started.
-
-          `env` outputs an object representing jq's current environment.
-
-          At the moment there is no builtin for setting environment
-          variables.
+          `$ENV` and `env` both evaluate to an empty object. jq programs
+          do not have access to environment variables.
 
         examples:
           - program: '$ENV.PAGER'
             input: 'null'
-            output: ['"less"']
+            output: ['null']
 
           - program: 'env.PAGER'
             input: 'null'
-            output: ['"less"']
+            output: ['null']
 
       - title: "`transpose`"
         body: |
