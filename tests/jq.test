@@ -1522,3 +1522,14 @@ false
 def f: $ENV; [$ENV, $ENV, env, f]
 null
 [{},{},{},{}]
+
+# input and inputs when no input callback is set
+[try input catch .], [inputs]
+null
+["break"]
+[]
+
+# debug when no debug callback is set
+[1 | debug]
+null
+[1]
